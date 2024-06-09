@@ -1,0 +1,14 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: ENS-config
+
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/Wolroys/ENS-config.git
+          username: Wolroys
+          password: ${githubToken}
