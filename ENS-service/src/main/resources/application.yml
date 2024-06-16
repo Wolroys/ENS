@@ -1,19 +1,35 @@
 spring:
   application:
-    name: ENS-service
+    name: ens-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/ENS
+    username: postgres
+    password: 9567
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
 
   profiles:
     active: default
-
-  config:
-    import: optional:configserver:http://localhost:8888
-
-  cloud:
-    config:
-      fail-fast: true
 
   liquibase:
     change-log: db/changelog/changelog-master.xml
 
 server:
   port: 0
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost

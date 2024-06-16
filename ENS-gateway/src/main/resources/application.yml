@@ -1,9 +1,34 @@
 spring:
   application:
     name: ENS-gateway
-
-  config:
-    import: optional:configserver:http://localhost:8888
+  cloud:
+    gateway:
+      enabled: true
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: accounts-service-route
+          uri: lb://ens-service
+          predicates:
+            - Path=/accounts/**
 
 server:
   port: 8765
+  error:
+    include-message: always
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+

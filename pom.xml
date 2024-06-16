@@ -11,7 +11,6 @@
 
     <modules>
         <module>ENS-server</module>
-        <module>ENS-config</module>
         <module>ENS-service</module>
         <module>ENS-gateway</module>
     </modules>

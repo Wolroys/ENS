@@ -10,4 +10,6 @@ public class EnsGatewayApplication {
 		SpringApplication.run(EnsGatewayApplication.class, args);
 	}
 
+
+
 }

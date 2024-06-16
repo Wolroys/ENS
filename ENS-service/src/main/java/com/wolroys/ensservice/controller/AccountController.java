@@ -1,4 +1,4 @@
-package com.wolroys.ensservice;
+package com.wolroys.ensservice.controller;
 
 import com.wolroys.ensservice.entity.AccountDto;
 import com.wolroys.ensservice.service.AccountService;
