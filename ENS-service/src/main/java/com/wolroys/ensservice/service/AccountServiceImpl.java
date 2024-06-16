@@ -28,6 +28,13 @@ public class AccountServiceImpl implements AccountService {
                 .toList();
     }
 
+    @Override
+    public AccountDto getById(Long id) {
+        return accountRepository.findById(id)
+                .map(accountMapper::toDto)
+                .orElseThrow(IllegalArgumentException::new);
+    }
+
     @Transactional
     public AccountDto createAccount(AccountRequest request) {
         Account account = new Account();
@@ -42,7 +49,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Transactional
     public AccountDto updateAccount(AccountRequest request) {
-        Account currAccount = accountRepository.findByIdOrThrowException(request.getId());
+        Account currAccount = accountRepository.findById(request.getId())
+                .orElseThrow(IllegalArgumentException::new);
 
         if (StringUtils.hasText(request.getEmail())) {
             currAccount.setEmail(request.getEmail());
@@ -57,7 +65,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Transactional
     public AccountDto deleteAccount(Long id) {
-        Account currAccount = accountRepository.findByIdOrThrowException(id);
+        Account currAccount = accountRepository.findById(id)
+                .orElseThrow(IllegalArgumentException::new);
 
         accountRepository.delete(currAccount);
 
