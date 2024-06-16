@@ -3,32 +3,36 @@ package com.wolroys.ensservice.service;
 
 import com.wolroys.ensservice.entity.AccountDto;
 import com.wolroys.ensservice.entity.AccountRequest;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.util.List;
-
+import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 
 @ExtendWith(SpringExtension.class)
 @Testcontainers
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class AccountServiceImplDatabaseTest {
 
     static final PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
             "postgres:16-alpine"
     );
-
+    @LocalServerPort
+    private Integer port;
     @Autowired
     private AccountService accountService;
 
     @BeforeAll
-    static void setUp() {
+    static void beforeAll() {
         postgres.start();
         System.setProperty("spring.datasource.url", postgres.getJdbcUrl());
         System.setProperty("spring.datasource.username", postgres.getUsername());
@@ -38,6 +42,11 @@ class AccountServiceImplDatabaseTest {
     @AfterAll
     static void tearDown() {
         postgres.stop();
+    }
+
+    @BeforeEach
+    void setUp() {
+        RestAssured.baseURI = "http://localhost:" + port;
     }
 
     @Test
@@ -55,9 +64,13 @@ class AccountServiceImplDatabaseTest {
         assertThat(result.getId()).isNotNull();
         assertThat(result.getEmail()).isEqualTo("test@mr.ru");
 
-        AccountDto account = accountService.getById(1L);
-
-        assertThat(account).isNotNull();
+        given()
+                .contentType(ContentType.JSON)
+                .when()
+                .get("/accounts")
+                .then()
+                .statusCode(200)
+                .body(".", hasSize(1));
     }
 
 

@@ -1,12 +1,11 @@
 package com.wolroys.ensservice.controller;
 
 import com.wolroys.ensservice.entity.AccountDto;
+import com.wolroys.ensservice.entity.AccountRequest;
 import com.wolroys.ensservice.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +19,25 @@ public class AccountController {
     @GetMapping
     public ResponseEntity<List<AccountDto>> getAllAccounts() {
         return ResponseEntity.ok(accountService.getAllAccounts());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AccountDto> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(accountService.getById(id));
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<AccountDto> createAccount(@RequestBody AccountRequest request) {
+        return ResponseEntity.ok(accountService.createAccount(request));
+    }
+
+    @PutMapping("/edit")
+    public ResponseEntity<AccountDto> update(@RequestBody AccountRequest request) {
+        return ResponseEntity.ok(accountService.updateAccount(request));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<AccountDto> delete(@PathVariable Long id) {
+        return ResponseEntity.ok(accountService.deleteAccount(id));
     }
 }
