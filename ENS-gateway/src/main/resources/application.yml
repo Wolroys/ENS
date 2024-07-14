@@ -9,10 +9,15 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
-        - id: accounts-service-route
+        - id: account-service-route
           uri: lb://ens-service
           predicates:
             - Path=/accounts/**
+
+        - id: notification-service-route
+          uri: lb://ens-service
+          predicates:
+            - Path=/notification/**
 
 server:
   port: 8765

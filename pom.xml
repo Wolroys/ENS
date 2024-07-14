@@ -13,6 +13,7 @@
         <module>ENS-server</module>
         <module>ENS-service</module>
         <module>ENS-gateway</module>
+        <module>ENS-Mail-Worker</module>
     </modules>
 
     <properties>
