@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: ENS-Mail-Worker
+  mail:
+    host: smtp.yandex.com
+    port: 587
+    username: alekseypaslenov@yandex.ru
+    password: yfyzurajcsummspt
+    personal: Emergency Notification System
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+          connectiontimeout: 25000
+          timeout: 25000
+          writetimeout: 25000
+
+  profiles:
+    active: default
+
+server:
+  port: 0
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
