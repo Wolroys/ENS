@@ -8,6 +8,8 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
+      default-filters:
+        - TokenRelay=
       routes:
         - id: account-service-route
           uri: lb://ens-service
@@ -18,6 +20,20 @@ spring:
           uri: lb://ens-service
           predicates:
             - Path=/notification/**
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/realms/ENS
+        registration:
+          keycloak:
+            provider: keycloak
+            client-id: ENS-client
+            client-secret: rjbW4QnNdopVYcmWPy3pobUPJ1x1U2vB
+            authorization-grant-type: authorization_code
+            scope:
+              - openid
 
 server:
   port: 8765
