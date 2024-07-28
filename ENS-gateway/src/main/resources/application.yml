@@ -13,10 +13,21 @@ spring:
           uri: lb://ens-service
           predicates:
             - Path=/accounts/**
+          filters:
+            - TokenRelay=
+
         - id: notification-service-route
           uri: lb://ens-service
           predicates:
             - Path=/notification/**
+
+        - id: admin-service-route
+          uri: lb://ens-service
+          predicates:
+            - Path=/admin/**
+          filters:
+            - TokenRelay=
+
   security:
     oauth2:
       client:
