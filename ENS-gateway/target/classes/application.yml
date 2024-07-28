@@ -8,14 +8,11 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
-      default-filters:
-        - TokenRelay=
       routes:
         - id: account-service-route
           uri: lb://ens-service
           predicates:
             - Path=/accounts/**
-
         - id: notification-service-route
           uri: lb://ens-service
           predicates:
@@ -30,7 +27,7 @@ spring:
           keycloak:
             provider: keycloak
             client-id: ENS-client
-            client-secret: client-secret
+            client-secret: rjbW4QnNdopVYcmWPy3pobUPJ1x1U2vB
             authorization-grant-type: authorization_code
             scope:
               - openid
@@ -52,4 +49,3 @@ management:
     web:
       exposure:
         include: "*"
-
